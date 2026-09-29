@@ -22,3 +22,32 @@ jobs:
       - run: pip install -r requirements.txt
 
       - run: python -c "import app; print('loaded ok, key length:', len(app.API_KEY))"
+
+
+  deploy-staging:
+    needs: test
+    runs-on: ubuntu-latest
+
+    environment: staging
+
+    steps:
+      - name: Deploy to staging
+        env:
+          PAYMENTS_API_KEY: ${{ secrets.PAYMENTS_API_KEY }}
+        run: echo "Deploying to staging"
+
+
+  deploy-production:
+    needs: test
+
+    if: startsWith(github.ref, 'refs/tags/')
+
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+      - name: Deploy to production
+        env:
+          PAYMENTS_API_KEY: ${{ secrets.PAYMENTS_API_KEY }}
+        run: echo "Deploying to production"
