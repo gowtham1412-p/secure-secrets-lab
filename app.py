@@ -1,7 +1,7 @@
+import os
 import requests
 
-# DO NOT DO THIS -- hardcoded secret, for demonstration only
-API_KEY = "sk_live_51Hc8sJ2eZvKYlo2C9x7QW8pR3T9dGdemoFAKE"
+API_KEY = os.environ["PAYMENTS_API_KEY"]
 
 def charge(amount_cents: int):
     return requests.post(
